@@ -53,8 +53,36 @@ class ProductRepositoryTest {
 
     // test saving of products
     @Test
-    void testSavingProducts(){
+    void testSavingNewProduct(){
 
+
+        Product newProduct = new Product("Monitor", 575);
+        assertNull(newProduct.getId()); // new product should not have Id yet
+
+        Product savedProduct = productRepository.save(newProduct);
+
+        List<Product> allProducts = productRepository.findAll();
+
+        assertNotNull(savedProduct.getId()); // product should have an Id now
+        assertEquals("Monitor", savedProduct.getName()); // Laptop should be in the list
+        assertEquals(4L, savedProduct.getId()); // all products list should + 1
+        assertTrue(allProducts.contains(savedProduct)); // all products should include the new product
+
+    }
+
+    @Test
+    void testSavingExistingProduct(){
+        Product existingProduct = new Product(1L,"Gaming Laptop", 1200.00);
+        assertNotNull(existingProduct.getId()); // product should already be existing
+
+        Product updatedProduct = productRepository.save(existingProduct);
+        // check new info
+        assertEquals(1L, updatedProduct.getId());
+        assertEquals("Gaming Laptop", updatedProduct.getName());
+        assertEquals(1200.00, updatedProduct.getPrice());
+
+        // check that total number of products still the same
+        assertEquals(3, productRepository.findAll().size());
     }
 
 
