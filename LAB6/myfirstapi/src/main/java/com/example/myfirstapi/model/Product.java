@@ -8,6 +8,8 @@ public class Product {
     private String name;
     private double price;
 
+    
+
     // Constructor to create new Product objects (without ID initially)
     public Product(String name, double price) {
         this.name = name;
